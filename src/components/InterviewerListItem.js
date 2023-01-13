@@ -4,7 +4,7 @@ import classNames from "classnames";
 
 
 export default function InterviewerListItem(props) {
-  console.log(props)
+
   const formatSelected = (selected) => {
     if (selected) {
       return props.name

@@ -5,7 +5,7 @@ import Show from "../Appointment/Show";
 import Empty from "../Appointment/Empty";
 
 export default function Appointment (props) {
-  console.log("appointment test props",props.interview)
+  
   return (
   <article className="appointment">
     <Header time={props.time}/>
