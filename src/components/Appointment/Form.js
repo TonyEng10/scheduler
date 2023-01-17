@@ -14,7 +14,7 @@ export default function Form(props) {
     reset();
     return props.onCancel();
   }
-
+  // console.log("#2 form props check:", props)
   return (
     <main className="appointment__card appointment__card--create">
       <section className="appointment__card-left">
@@ -23,21 +23,24 @@ export default function Form(props) {
             className="appointment__create-input text--semi-bold"
             name="name"
             type="text"
-            placeholder="Enter Student Name"
+            placeholder={props.placeholder}
             value={student}
             onChange={(event) => setStudent(event.target.value)}
+          //  need name and interviewer passed as prop
           />
         </form>
-        <InterviewerList
-          value={interviewer}
-          interviewers={props.interviewers}
-          onChange={setInterviewer}
-        />
+  
+          <InterviewerList
+            value={interviewer}
+            interviewers={props.interviewers}
+            onChange={setInterviewer}
+          />
+        
       </section>
       <section className="appointment__card-right">
         <section className="appointment__actions">
           <Button danger onClick={cancel}>Cancel</Button>
-          <Button confirm onClick={props.onSave}>Save</Button>
+          <Button confirm onClick={() => props.onSave(student, interviewer)}>Save</Button>
         </section>
       </section>
     </main>
