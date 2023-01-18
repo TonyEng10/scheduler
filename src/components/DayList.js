@@ -7,7 +7,7 @@ export default function DayList(props){
   const { state } = useApplicationData();
   console.log("#8 daylist state check,", state)
 
-const eachDay = state.days.map((day) => {
+const eachDay = props.days.map((day) => {
   console.log("day.spots check,", day.id, day.spots)
   return (
     <DayListItem
