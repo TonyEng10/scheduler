@@ -1,15 +1,15 @@
 import React from "react";
-import "components/Appointment/styles.scss";
+import useVisualMode from "hooks/useVisualMode";
+
 import Header from "../Appointment/Header";
 import Show from "../Appointment/Show";
 import Empty from "../Appointment/Empty";
-import useVisualMode from "hooks/useVisualMode";
 import Form from "./Form";
 import Status from "./Status";
 import Confirm from "./Confirm";
 import Error from "./Error";
-// import useApplicationData from "hooks/useApplicationData";
 
+import "components/Appointment/styles.scss";
 
 export default function Appointment(props) {
   const EMPTY = "EMPTY";
@@ -19,8 +19,8 @@ export default function Appointment(props) {
   const DELETING = "DELETING";
   const CONFIRM = "CONFIRM";
   const EDIT = "EDIT";
-  const ERROR_SAVE="ERROR_SAVE";
-  const ERROR_DELETE="ERROR_DELETE";
+  const ERROR_SAVE = "ERROR_SAVE";
+  const ERROR_DELETE = "ERROR_DELETE";
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -35,27 +35,24 @@ export default function Appointment(props) {
     props.bookInterview(props.id, interview)
       .then(res => transition(SHOW))
       .catch(error => transition(ERROR_SAVE, true))
-  }
+  };
 
   const cancel = () => {
-    // const interview = {
-    //   student: name,
-    //   interviewer
-    // };
-    // console.log("is cancel even being triggered? yes props.id, interview",  interview)
+
     transition(DELETING, true)
     props.cancelInterview(props.id)
       .then(res => transition(EMPTY))
       .catch(error => transition(ERROR_DELETE, true))
-  }
+  };
 
   const edit = () => {
     transition(EDIT);
-  }
-  // console.log("#1 appointment props", props)
+  };
+
   return (
-    <article className="appointment">
+    <article className="appointment" data-testid="appointment">
       <Header time={props.time} />
+
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && (
         <Show
@@ -71,7 +68,7 @@ export default function Appointment(props) {
           onSave={save}
           onCancel={back}
           interview={props.interview}
-          placeholder={"Enter Student Name"}
+          placeholder="Enter Student Name"
         />
       )}
       {mode === SAVING && (
@@ -96,23 +93,24 @@ export default function Appointment(props) {
           interviewers={props.interviewers}
           onSave={save}
           onCancel={back}
+          placeholder="Enter Student Name"
           interviewer={props.interview.interviewer.id} // setup this way so that it just replaces the default useState on form
           student={props.interview.student} // same as above
         />
       )}
       {mode === ERROR_SAVE && (
-        <Error 
+        <Error
           message={"Error not able to save appointment"}
           onClose={back}
         />
       )}
       {mode === ERROR_DELETE && (
-        <Error 
-        message={"Error cannot delete appointment"}
-        onClose={back}
-      />
+        <Error
+          message={"Error cannot delete appointment"}
+          onClose={back}
+        />
       )}
     </article>
   )
-}
+};
 
